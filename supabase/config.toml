@@ -1,0 +1,16 @@
+# Supabase Edge Functions Configuration
+
+[functions.ninja-kyc-webhook]
+verify_jwt = false # Ninja webhook callbacks are unauthenticated by Supabase JWT; signature verified via x-ninja-signature HMAC
+
+[functions.start-ninja-kyc]
+verify_jwt = true # Requires authenticated user JWT from RYZON Flutter mobile app
+
+[functions.breet-webhook]
+verify_jwt = false # Breet webhook callbacks are unauthenticated by Supabase JWT; signature verified via x-breet-signature HMAC
+
+[functions.generate-deposit-address]
+verify_jwt = true # Requires authenticated user JWT from RYZON Flutter mobile app
+
+[functions.process-withdrawal]
+verify_jwt = true # Requires authenticated user JWT from RYZON Flutter mobile app

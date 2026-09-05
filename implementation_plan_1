@@ -1,0 +1,128 @@
+# Implementation Plan - Frontend Update & Package Integration Plan
+
+We will update the Ryzon Flutter application flow-by-flow to match the 68 high-fidelity prototype design samples located in [`c:\Users\Khaleelullah\Ryzon-Convert\Prototype\`](file:///c:/Users/Khaleelullah/Ryzon-Convert/Prototype).
+
+---
+
+## 📦 Required Package Stack & Re-Planning
+
+To ensure the application feels state-of-the-art, fluid, and responsive, we are integrating the following specialized packages into [`pubspec.yaml`](file:///c:/Users/Khaleelullah/Ryzon-Convert/pubspec.yaml):
+
+| Package Name | Purpose & Utility | Primary Target Flow |
+| :--- | :--- | :--- |
+| **`flutter_animate`** (`^4.5.0`) | Smooth entrance animations, card slide-ins, pulsing buttons, fade transitions | **All Flows** (1–6) |
+| **`lottie`** (`^3.1.2`) | Vector animations for success badges, pending spinners & splash screens | **Flow 1, 3, 4, 5** |
+| **`shimmer`** (`^3.0.0`) | Shimmering skeleton loaders for transaction history, cards & bank lists | **Flow 2, 4** |
+| **`infinite_scroll_pagination`** (`^4.0.0`) | Page-by-page infinite scrolling for history, notifications & bank selection | **Flow 2, 4, 6** |
+| **`smooth_page_indicator`** (`^1.1.0`) | Animated dot indicators for onboarding slides | **Flow 1** |
+| **`share_plus`** (`^9.0.0`) | Native sheet sharing of deposit addresses, receipts & referral codes | **Flow 3, 6** |
+| **`flutter_secure_storage`** (`^9.2.2`) | Encrypted storage for session tokens, PIN flags & biometric preferences | **Flow 1, 6** |
+| **`google_fonts`** (`^6.2.1`) | Global `Outfit` font family across all typography styles | **All Flows** (1–6) |
+
+---
+
+## 🗺️ Master Flow Plan & Package Assignment
+
+```mermaid
+graph TD
+    A["Flow 1: Auth & Onboarding<br/>(smooth_page_indicator, lottie, flutter_animate)"] --> B["Flow 2: Home & Activity<br/>(shimmer, infinite_scroll_pagination)"]
+    B --> C["Flow 3: Deposit & Conversion<br/>(share_plus, lottie, AnimatedSwitcher)"]
+    C --> D["Flow 4: Withdrawal & Bank<br/>(infinite_scroll_pagination, lottie)"]
+    D --> E["Flow 5: KYC Verification<br/>(flutter_animate, lottie)"]
+    E --> F["Flow 6: Settings & Support<br/>(share_plus, infinite_scroll_pagination)"]
+```
+
+---
+
+### 🟢 Flow 1 (Current Target): Authentication & Onboarding
+**Packages Used**: `smooth_page_indicator`, `lottie`, `flutter_animate`, `google_fonts`, `HapticFeedback`
+
+#### Prototype Screenshots Covered:
+- `Splash Screen.png`, `Splash Screen-1.png` - `4.png`
+- `login.png`, `sign-up.png`, `sign-up-1.png`
+- `email-otp-verification.png`
+- `create-pin.png`, `confirm-create-pin.png`, `pin-created-success.png`
+- `forgot-password.png`, `reset-otp-verification.png`, `create-new-password.png`, `password-reset-success.png`
+
+#### Implementation Steps for Flow 1:
+1. **Onboarding Carousel** ([`onboarding_screen.dart`](file:///c:/Users/Khaleelullah/Ryzon-Convert/lib/features/onboarding/presentation/screens/onboarding_screen.dart)):
+   - Integrate `SmoothPageIndicator` for animated dot transitions matching `Splash Screen-1.png` to `4.png`.
+   - Add entrance slide & fade animations via `flutter_animate`.
+2. **Sign Up & Requirements** ([`signup_screen.dart`](file:///c:/Users/Khaleelullah/Ryzon-Convert/lib/features/auth/presentation/screens/signup_screen.dart)):
+   - Add animated checkbox state transitions for requirement indicators matching `sign-up.png` and `sign-up-1.png`.
+3. **Numeric Keypad & PIN** ([`custom_numeric_keypad.dart`](file:///c:/Users/Khaleelullah/Ryzon-Convert/lib/shared/widgets/custom_numeric_keypad.dart)):
+   - Add `HapticFeedback.lightImpact()` on every keypad digit press.
+4. **Celebration Success** ([`auth_success_screen.dart`](file:///c:/Users/Khaleelullah/Ryzon-Convert/lib/features/auth/presentation/screens/auth_success_screen.dart)):
+   - Add `Lottie.asset` for animated success checkmarks matching `pin-created-success.png` and `password-reset-success.png`.
+
+---
+
+### 🔵 Flow 2: Home Dashboard & Activity History
+**Packages Used**: `shimmer`, `infinite_scroll_pagination`, `flutter_animate`
+
+#### Prototype Screenshots Covered:
+- `home-dashboard.png`, `dashboard-zero-balance.png`, `dashboard-kyc-unverified.png`, `dashboard-kyc-pending.png`
+- `activity-history.png`, `empty-transaction-history.png`, `empty-filtered-results.png`
+- `notifications-screen.png`, `empty-notifications.png`, `export-success.png`, `empty-export-state.png`
+
+---
+
+### 🟣 Flow 3: Deposit & Conversion
+**Packages Used**: `share_plus`, `lottie`, `flutter_animate`, `Clipboard`
+
+#### Prototype Screenshots Covered:
+- `deposit-address - Arbitrum.png`, `deposit-address - BSC.png`, `deposit-address - Plasma.png`
+- `deposit-detail.png`, `conversion-in-progress.png`, `conversion-complete.png`
+
+---
+
+### 🟡 Flow 4: Withdrawal & Bank Account
+**Packages Used**: `infinite_scroll_pagination`, `lottie`, `shimmer`
+
+#### Prototype Screenshots Covered:
+- `withdraw-to-bank.png`, `no-bank-account.png`, `select-bank.png`
+- `enter-account-details.png`, `bank-added-success.png`
+- `insufficient-balance.png`, `insufficient-balance-1.png`, `withdrawal-detail.png`
+
+---
+
+### 🔴 Flow 5: KYC Verification
+**Packages Used**: `lottie`, `flutter_animate`
+
+#### Prototype Screenshots Covered:
+- `kyc-not-started.png`, `kyc-details.png`, `kyc-nin-entry.png`
+- `kyc-verifying.png`, `kyc-pending.png`, `kyc-success.png`, `kyc-rejected.png`
+
+---
+
+### 🟠 Flow 6: Settings, Profile & Support
+**Packages Used**: `share_plus`, `infinite_scroll_pagination`, `flutter_animate`
+
+#### Prototype Screenshots Covered:
+- `profile-settings.png`, `enter-current-pin.png`, `enter-new-pin.png`, `pin-changed-success.png`
+- `contact-support.png`, `help-and-faq.png`, `live-chat.png`, `referral.png`
+
+---
+
+## 🛠️ Required Code Modifications for Flow 1 Start
+
+#### [MODIFY] [`pubspec.yaml`](file:///c:/Users/Khaleelullah/Ryzon-Convert/pubspec.yaml)
+- Add `flutter_animate: ^4.5.0`, `lottie: ^3.1.2`, `shimmer: ^3.0.0`, `infinite_scroll_pagination: ^4.0.0`, `smooth_page_indicator: ^1.1.0`, `share_plus: ^9.0.0`.
+
+#### [MODIFY] [`onboarding_screen.dart`](file:///c:/Users/Khaleelullah/Ryzon-Convert/lib/features/onboarding/presentation/screens/onboarding_screen.dart)
+- Implement `SmoothPageIndicator` and `flutter_animate` slide transitions.
+
+#### [MODIFY] [`custom_numeric_keypad.dart`](file:///c:/Users/Khaleelullah/Ryzon-Convert/lib/shared/widgets/custom_numeric_keypad.dart)
+- Add `HapticFeedback.lightImpact()` to keypresses.
+
+---
+
+## 🧪 Verification Plan
+
+### Automated Tests:
+- Run `flutter test test/features/buttons_and_routing_test.dart` to verify zero regression across routing and button triggers.
+
+### Manual Testing:
+- Verify smooth page indicator animations on Onboarding.
+- Verify haptic vibration feedback on numeric keypad entry.
+- Verify success screen Lottie/Animate badge transitions.
